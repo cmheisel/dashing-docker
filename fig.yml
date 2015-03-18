@@ -1,0 +1,8 @@
+web:
+  build: .
+  command: /bin/bash /dashboard/start.sh
+  hostname: dashing_local
+  volumes:
+    - ./dashboard:/dashboard
+  ports:
+    - "3030:3030"

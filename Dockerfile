@@ -1,17 +1,16 @@
-FROM 		ubuntu
-MAINTAINER	Mikael Larsson "mikael.larsson@romram.se"
+FROM 		ruby:2.1.5-slim
+MAINTAINER	Chris Heisel "chris@heisel.org"
 
-# Add and update apt sources
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN apt-get update; apt-get -y upgrade
-
-# Add compiler package and ruby1.9.1
-RUN apt-get install -y build-essential ruby1.9.1-dev
-RUN apt-get install -y nodejs
+#Add compiler package and ruby1.9.1
+RUN apt-get update && apt-get install -y \
+    nodejs \
+    build-essential \
+    libssl-dev \
+    libcurl4-openssl-dev \
+    libreadline-dev
 
 # Install dashing and bundle
-RUN gem install dashing
-RUN gem install bundle
+RUN gem install dashing && gem install bundle
 
 # Default command that autostarts the dashing project
 CMD ["bash", "/dashboard/start.sh"]
