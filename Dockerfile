@@ -10,7 +10,14 @@ RUN apt-get update && apt-get install -y \
     libreadline-dev
 
 # Install dashing and bundle
-RUN gem install dashing && gem install bundle
+RUN gem install dashing -v 1.3.4 && \
+    gem install bundler -v 1.8.4 && \
+    mkdir -p /dashboard
+
+ONBUILD COPY ./dashboard/start.sh /dashboard/
+ONBUILD COPY ./dashboard/Gemfile* /dashboard/
+ONBUILD RUN cd /dashboard/ && bundle
+ONBUILD COPY ./dashboard/* /dashboard/
 
 # Default command that autostarts the dashing project
 CMD ["bash", "/dashboard/start.sh"]
